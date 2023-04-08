@@ -2,53 +2,50 @@ package ca.landonjw.gooeylibs2.api.button.linked;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
 import ca.landonjw.gooeylibs2.api.button.ButtonAction;
+import ca.landonjw.gooeylibs2.api.button.FlagType;
 import ca.landonjw.gooeylibs2.api.button.GooeyButton;
+import ca.landonjw.gooeylibs2.api.button.linked.LinkType;
 import ca.landonjw.gooeylibs2.api.page.LinkedPage;
 import ca.landonjw.gooeylibs2.api.page.Page;
+import java.util.Collection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class LinkedPageButton extends GooeyButton {
+    private final LinkType linkType;
 
-    private LinkType linkType;
-
-    protected LinkedPageButton(@Nonnull ItemStack display,
-                               @Nullable Consumer<ButtonAction> onClick,
-                               @Nonnull LinkType linkType) {
+    protected LinkedPageButton(@NotNull ItemStack display, @Nullable Consumer<ButtonAction> onClick, @NotNull LinkType linkType) {
         super(display, onClick);
         this.linkType = linkType;
     }
 
     @Override
-    public void onClick(@Nonnull ButtonAction action) {
+    public void onClick(@NotNull ButtonAction action) {
         super.onClick(action);
-        if (action.getPage() instanceof LinkedPage) {
-            LinkedPage linkedPage = (LinkedPage) action.getPage();
-            Page targetPage = (linkType == LinkType.Previous) ? linkedPage.getPrevious() : linkedPage.getNext();
-            if (targetPage != null) {
-                UIManager.openUIForcefully(action.getPlayer(), targetPage);
-            }
+        Page page = action.getPage();
+        if (page instanceof LinkedPage linkedPage) {
+            UIManager.openUIForcefully(action.getPlayer(), linkedPage);
         }
     }
 
     public LinkType getLinkType() {
-        return linkType;
+        return this.linkType;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public static class Builder extends GooeyButton.Builder {
-
+    public static class Builder
+    extends GooeyButton.Builder {
         private LinkType linkType;
 
         @Override
-        public Builder display(@Nonnull ItemStack display) {
+        public Builder display(@NotNull ItemStack display) {
             super.display(display);
             return this;
         }
@@ -65,30 +62,59 @@ public class LinkedPageButton extends GooeyButton {
             return this;
         }
 
+        public Builder linkType(@NotNull LinkType linkType) {
+            this.linkType = linkType;
+            return this;
+        }
+
+        @Override
+        public Builder lore(@Nullable Collection<String> lore) {
+            super.lore(lore);
+            return this;
+        }
+
+        @Override
+        public <T> Builder lore(Class<T> type, @Nullable Collection<T> lore) {
+            super.lore(type, lore);
+            return this;
+        }
+
+        @Override
+        public Builder hideFlags(FlagType ... flags) {
+            super.hideFlags(flags);
+            return this;
+        }
+
+        @Override
+        public Builder onClick(@Nullable Runnable behaviour) {
+            super.onClick(behaviour);
+            return this;
+        }
+
         @Override
         public Builder onClick(@Nullable Consumer<ButtonAction> behaviour) {
             super.onClick(behaviour);
             return this;
         }
 
-        public Builder linkType(@Nonnull LinkType linkType) {
-            this.linkType = linkType;
-            return this;
+        @Override
+        protected ItemStack buildDisplay() {
+            return super.buildDisplay();
         }
 
         @Override
         public LinkedPageButton build() {
-            validate();
-            return new LinkedPageButton(buildDisplay(), onClick, linkType);
+            this.validate();
+            return new LinkedPageButton(this.buildDisplay(), this.onClick, this.linkType);
         }
 
         @Override
         protected void validate() {
             super.validate();
-            if (linkType == null) {
+            if (this.linkType == null) {
                 throw new IllegalStateException("link type must be defined!");
             }
         }
     }
-
 }
+

@@ -6,10 +6,10 @@ plugins {
 group = project.group
 version = "${project.property("modVersion")}"
 
-val isSnapshot = project.property("snapshot")?.equals("true") ?: false
-if (isSnapshot) {
-    version = "$version-SNAPSHOT"
-}
+//val isSnapshot = project.property("snapshot")?.equals("true") ?: false
+//if (isSnapshot) {
+//    version = "$version-SNAPSHOT"
+//}
 
 allprojects {
     apply(plugin = "java")

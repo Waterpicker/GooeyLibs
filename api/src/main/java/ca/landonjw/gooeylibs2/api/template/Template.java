@@ -1,14 +1,13 @@
 package ca.landonjw.gooeylibs2.api.template;
 
 import ca.landonjw.gooeylibs2.api.data.UpdateEmitter;
+import ca.landonjw.gooeylibs2.api.template.TemplateType;
 import ca.landonjw.gooeylibs2.api.template.slot.TemplateSlotDelegate;
 import com.google.common.collect.ImmutableList;
-
-import javax.annotation.Nonnull;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 public abstract class Template extends UpdateEmitter<Template> {
-
     protected final TemplateType templateType;
     private final TemplateSlotDelegate[] slots;
 
@@ -38,5 +37,5 @@ public abstract class Template extends UpdateEmitter<Template> {
     }
 
     public abstract Template clone();
-
 }
+

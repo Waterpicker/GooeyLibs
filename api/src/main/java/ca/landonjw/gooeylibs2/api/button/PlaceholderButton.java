@@ -5,8 +5,8 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
-public class PlaceholderButton implements Button {
-
+public class PlaceholderButton
+implements Button {
     private final Button button;
 
     public PlaceholderButton(@Nonnull Button button) {
@@ -14,11 +14,7 @@ public class PlaceholderButton implements Button {
     }
 
     public PlaceholderButton() {
-        this(
-                GooeyButton.builder()
-                        .display(ItemStack.EMPTY)
-                        .build()
-        );
+        this(GooeyButton.builder().display(ItemStack.EMPTY).build());
     }
 
     public static PlaceholderButton of(@Nonnull Button button) {
@@ -27,22 +23,22 @@ public class PlaceholderButton implements Button {
 
     @Override
     public ItemStack getDisplay() {
-        return button.getDisplay();
+        return this.button.getDisplay();
     }
 
     @Override
     public void onClick(@Nonnull ButtonAction action) {
-        button.onClick(action);
+        this.button.onClick(action);
     }
 
     @Override
     public void subscribe(@Nonnull Object observer, @Nonnull Consumer<Button> consumer) {
-        button.subscribe(observer, consumer);
+        this.button.subscribe(observer, consumer);
     }
 
     @Override
     public void unsubscribe(@Nonnull Object observer) {
-        button.unsubscribe(observer);
+        this.button.unsubscribe(observer);
     }
-
 }
+

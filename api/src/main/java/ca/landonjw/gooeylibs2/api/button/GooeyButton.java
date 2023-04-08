@@ -3,6 +3,7 @@ package ca.landonjw.gooeylibs2.api.button;
 import com.google.common.collect.Lists;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -13,13 +14,11 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class GooeyButton extends ButtonBase {
-
     private final Consumer<ButtonAction> onClick;
 
     protected GooeyButton(@Nonnull ItemStack display, @Nullable Consumer<ButtonAction> onClick) {
@@ -29,7 +28,9 @@ public class GooeyButton extends ButtonBase {
 
     @Override
     public void onClick(@Nonnull ButtonAction action) {
-        if (onClick != null) onClick.accept(action);
+        if (this.onClick != null) {
+            this.onClick.accept(action);
+        }
     }
 
     public static Builder builder() {
@@ -37,13 +38,10 @@ public class GooeyButton extends ButtonBase {
     }
 
     public static GooeyButton of(ItemStack stack) {
-        return builder()
-                .display(stack)
-                .build();
+        return GooeyButton.builder().display(stack).build();
     }
 
     public static class Builder {
-
         protected ItemStack display;
         protected Component title;
         protected Collection<Component> lore = Lists.newArrayList();
@@ -56,10 +54,9 @@ public class GooeyButton extends ButtonBase {
         }
 
         public Builder title(@Nullable String title) {
-            if(title == null) {
+            if (title == null) {
                 return this;
             }
-
             return this.title(Component.literal(title));
         }
 
@@ -69,27 +66,24 @@ public class GooeyButton extends ButtonBase {
         }
 
         public Builder lore(@Nullable Collection<String> lore) {
-            if(lore == null) {
+            if (lore == null) {
                 return this;
             }
-
             this.lore = lore.stream().map(Component::literal).collect(Collectors.toList());
             return this;
         }
 
-        @SuppressWarnings("unchecked")
         public <T> Builder lore(Class<T> type, @Nullable Collection<T> lore) {
-            if(lore == null) {
+            if (lore == null) {
                 return this;
             }
-
-            if(Component.class.isAssignableFrom(type)) {
+            if (Component.class.isAssignableFrom(type)) {
                 this.lore = (Collection<Component>) lore;
                 return this;
-            } else if(String.class.isAssignableFrom(type)) {
+            }
+            if (String.class.isAssignableFrom(type)) {
                 return this.lore((Collection<String>) lore);
             }
-
             throw new UnsupportedOperationException("Invalid Type: " + type.getName());
         }
 
@@ -104,58 +98,49 @@ public class GooeyButton extends ButtonBase {
         }
 
         public Builder onClick(@Nullable Runnable behaviour) {
-            this.onClick = (behaviour != null) ? (action) -> behaviour.run() : null;
+            this.onClick = behaviour != null ? action -> behaviour.run() : null;
             return this;
         }
 
         public GooeyButton build() {
-            validate();
-            return new GooeyButton(buildDisplay(), onClick);
+            this.validate();
+            return new GooeyButton(this.buildDisplay(), this.onClick);
         }
 
         protected void validate() {
-            if (display == null) throw new IllegalStateException("button display must be defined");
+            if (this.display == null) {
+                throw new IllegalStateException("button display must be defined");
+            }
         }
 
         protected ItemStack buildDisplay() {
-            if (title != null) {
-                MutableComponent result = Component.empty()
-                        .setStyle(Style.EMPTY.withItalic(false))
-                        .append(this.title);
-                display.setHoverName(result);
+            if (this.title != null) {
+                MutableComponent result = Component.literal("").setStyle(Style.EMPTY.withItalic(Boolean.valueOf(false))).append(this.title);
+                this.display.setHoverName(result);
             }
-
-            if (!lore.isEmpty()) {
+            if (!this.lore.isEmpty()) {
                 ListTag nbtLore = new ListTag();
-                for (Component line : lore) {
-                    MutableComponent result = Component.empty()
-                            .setStyle(Style.EMPTY.withItalic(false))
-                            .append(line);
+                for (Component line : this.lore) {
+                    MutableComponent result = Component.literal("").setStyle(Style.EMPTY.withItalic(Boolean.valueOf(false))).append(line);
                     nbtLore.add(StringTag.valueOf(Component.Serializer.toJson(result)));
                 }
-                display.getOrCreateTagElement("display").put("Lore", nbtLore);
+                this.display.getOrCreateTagElement("display").put("Lore", nbtLore);
             }
-
-            if (!this.hideFlags.isEmpty() && display.hasTag())
-            {
-                if (this.hideFlags.contains(FlagType.Reforged) || this.hideFlags.contains(FlagType.All))
-                {
-                    display.getOrCreateTag().putString("tooltip", "");
+            if (!this.hideFlags.isEmpty() && this.display.hasTag()) {
+                if (this.hideFlags.contains(FlagType.Reforged) || this.hideFlags.contains(FlagType.All)) {
+                    this.display.getOrCreateTag().putString("tooltip", "");
                 }
-                if (this.hideFlags.contains(FlagType.Generations) || this.hideFlags.contains(FlagType.All))
-                {
-                    display.getOrCreateTag().putBoolean("HideTooltip", true);
+                if (this.hideFlags.contains(FlagType.Generations) || this.hideFlags.contains(FlagType.All)) {
+                    this.display.getOrCreateTag().putBoolean("HideTooltip", true);
                 }
                 int value = 0;
-                for (FlagType flag : this.hideFlags)
-                {
+                for (FlagType flag : this.hideFlags) {
                     value += flag.getValue();
                 }
-                display.getOrCreateTag().putInt("HideFlags", value);
+                this.display.getOrCreateTag().putInt("HideFlags", value);
             }
-            return display;
+            return this.display;
         }
-
     }
-
 }
+

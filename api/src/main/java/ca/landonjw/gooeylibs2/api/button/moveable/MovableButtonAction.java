@@ -10,14 +10,9 @@ import net.minecraft.server.level.ServerPlayer;
 import javax.annotation.Nonnull;
 
 public class MovableButtonAction extends ButtonAction {
-
     private boolean cancelled;
 
-    public MovableButtonAction(@Nonnull ServerPlayer player,
-                               @Nonnull ButtonClick clickType,
-                               @Nonnull Button button,
-                               @Nonnull Template template,
-                               @Nonnull Page page, int slot) {
+    public MovableButtonAction(@Nonnull ServerPlayer player, @Nonnull ButtonClick clickType, @Nonnull Button button, @Nonnull Template template, @Nonnull Page page, int slot) {
         super(player, clickType, button, template, page, slot);
     }
 
@@ -26,7 +21,6 @@ public class MovableButtonAction extends ButtonAction {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
-
 }

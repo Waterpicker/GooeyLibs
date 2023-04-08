@@ -1,11 +1,19 @@
 package ca.landonjw.gooeylibs2.api.tasks;
 
 import ca.landonjw.gooeylibs2.bootstrap.GooeyBootstrapper;
-
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
+import javax.annotation.Nonnull;
 
 public interface Task {
+    boolean isAsync();
+
+    long delay();
+
+    long iterations();
+
+    Consumer<Task> executor();
+
+    boolean infinite();
 
     boolean isExpired();
 
@@ -16,19 +24,21 @@ public interface Task {
     }
 
     interface TaskBuilder {
-        TaskBuilder execute(@Nonnull Runnable runnable);
+        TaskBuilder async();
 
-        TaskBuilder execute(@Nonnull Consumer<Task> consumer);
+        TaskBuilder execute(@Nonnull Runnable var1);
 
-        TaskBuilder delay(long delay);
+        TaskBuilder execute(@Nonnull Consumer<Task> var1);
 
-        TaskBuilder interval(long interval);
+        TaskBuilder delay(long var1);
 
-        TaskBuilder iterations(long iterations);
+        TaskBuilder interval(long var1);
+
+        TaskBuilder iterations(long var1);
 
         TaskBuilder infinite();
 
         Task build();
     }
-
 }
+

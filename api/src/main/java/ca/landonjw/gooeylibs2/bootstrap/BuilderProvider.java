@@ -4,9 +4,8 @@ import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 public interface BuilderProvider {
+    <T> T provide(Class<T> var1) throws NoSuchElementException;
 
-    <T> T provide(Class<T> type) throws NoSuchElementException;
-
-    <T> boolean register(Class<T> type, Supplier<T> supplier);
-
+    <T> boolean register(Class<T> var1, Supplier<T> var2);
 }
+

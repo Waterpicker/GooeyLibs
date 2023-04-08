@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class EventEmitter<T> implements Subject<T> {
-
     private final Map<Object, Consumer<T>> observers = Maps.newHashMap();
 
     @Override
@@ -21,7 +20,7 @@ public class EventEmitter<T> implements Subject<T> {
     }
 
     public void emit(T value) {
-        this.observers.values().forEach((observer) -> observer.accept(value));
+        this.observers.values().forEach(observer -> observer.accept(value));
     }
-
 }
+

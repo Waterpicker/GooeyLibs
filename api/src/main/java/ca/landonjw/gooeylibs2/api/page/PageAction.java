@@ -1,11 +1,17 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  javax.annotation.Nonnull
+ *  net.minecraft.server.level.ServerPlayer
+ */
 package ca.landonjw.gooeylibs2.api.page;
 
+import ca.landonjw.gooeylibs2.api.page.Page;
+import javax.annotation.Nonnull;
 import net.minecraft.server.level.ServerPlayer;
 
-import javax.annotation.Nonnull;
-
 public class PageAction {
-
     private final ServerPlayer player;
     private final Page page;
 
@@ -15,11 +21,11 @@ public class PageAction {
     }
 
     public ServerPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     public Page getPage() {
-        return page;
+        return this.page;
     }
-
 }
+

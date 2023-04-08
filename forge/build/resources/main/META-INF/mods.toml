@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="All rights reserved"
+
+[[mods]]
+modId="gooeylibs2"
+version="3.1.0"
+displayName="GooeyLibs2"
+authors="landonjw"
+description='''
+Server-side library that allows for easy user interface development.
+'''
+
+[[dependencies.gooeylibs2]]
+   modId="forge"
+   mandatory=true
+   versionRange="[40,)"
+   ordering="NONE"
+   side="SERVER"
+
+[[dependencies.gooeylibs2]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[1.19.2]"
+   ordering="NONE"
+   side="SERVER"

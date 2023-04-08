@@ -1,7 +1,10 @@
 package ca.landonjw.gooeylibs2.bootstrap;
 
-public interface GooeyBootstrapper {
+import ca.landonjw.gooeylibs2.bootstrap.BuilderProvider;
+import ca.landonjw.gooeylibs2.bootstrap.GooeyServiceProvider;
+import ca.landonjw.gooeylibs2.bootstrap.InstanceProvider;
 
+public interface GooeyBootstrapper {
     static GooeyBootstrapper instance() {
         return GooeyServiceProvider.get();
     }
@@ -11,5 +14,5 @@ public interface GooeyBootstrapper {
     InstanceProvider provider();
 
     BuilderProvider builders();
-
 }
+

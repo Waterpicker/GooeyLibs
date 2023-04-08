@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class ButtonAction {
-
     private final ServerPlayer player;
     private final ButtonClick clickType;
     private final Button button;
@@ -17,12 +16,7 @@ public class ButtonAction {
     private final Page page;
     private final int slot;
 
-    public ButtonAction(@Nonnull ServerPlayer player,
-                        @Nonnull ButtonClick clickType,
-                        @Nonnull Button button,
-                        @Nonnull Template template,
-                        @Nonnull Page page,
-                        int slot) {
+    public ButtonAction(@Nonnull ServerPlayer player, @Nonnull ButtonClick clickType, @Nonnull Button button, @Nonnull Template template, @Nonnull Page page, int slot) {
         this.player = Objects.requireNonNull(player);
         this.clickType = Objects.requireNonNull(clickType);
         this.button = Objects.requireNonNull(button);
@@ -32,39 +26,38 @@ public class ButtonAction {
     }
 
     public ServerPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     public ButtonClick getClickType() {
-        return clickType;
+        return this.clickType;
     }
 
     public Button getButton() {
-        return button;
+        return this.button;
     }
 
     public Template getTemplate() {
-        return template;
+        return this.template;
     }
 
     public Page getPage() {
-        return page;
+        return this.page;
     }
 
     public int getSlot() {
-        return slot;
+        return this.slot;
     }
 
     public boolean isSlotInInventory() {
-        return page.getInventoryTemplate().isPresent() && slot >= template.getSize();
+        return this.page.getInventoryTemplate().isPresent() && this.slot >= this.template.getSize();
     }
 
     public Optional<Integer> getInventorySlot() {
-        if (isSlotInInventory()) {
-            return Optional.of(slot - template.getSize());
-        } else {
-            return Optional.empty();
+        if (this.isSlotInInventory()) {
+            return Optional.of(this.slot - this.template.getSize());
         }
+        return Optional.empty();
     }
-
 }
+

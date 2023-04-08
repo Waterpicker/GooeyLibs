@@ -8,12 +8,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RateLimitedButton extends ButtonBase {
-
     private final Button button;
     private final int limit;
     private final long timeInterval;
     private final TimeUnit timeUnit;
-
     private final LinkedList<Instant> lastActionTimes = new LinkedList<>();
 
     protected RateLimitedButton(@Nonnull Button button, int limit, long timeInterval, @Nonnull TimeUnit timeUnit) {
@@ -26,22 +24,27 @@ public class RateLimitedButton extends ButtonBase {
 
     @Override
     public void onClick(@Nonnull ButtonAction action) {
-        if (isRateLimited()) return;
-
-        if (isTopElementAboveTimeThreshold()) lastActionTimes.remove();
-        button.onClick(action);
-        lastActionTimes.add(Instant.now());
+        if (this.isRateLimited()) {
+            return;
+        }
+        if (this.isTopElementAboveTimeThreshold()) {
+            this.lastActionTimes.remove();
+        }
+        this.button.onClick(action);
+        this.lastActionTimes.add(Instant.now());
     }
 
     public boolean isRateLimited() {
-        if (lastActionTimes.size() < limit) return false;
-        return !isTopElementAboveTimeThreshold();
+        if (this.lastActionTimes.size() < this.limit) {
+            return false;
+        }
+        return !this.isTopElementAboveTimeThreshold();
     }
 
     public int getAllowedRemainingClicks() {
-        AtomicInteger allowed = new AtomicInteger(limit);
-        lastActionTimes.forEach(instant -> {
-            if (Duration.between(instant, Instant.now()).toMillis() <= timeUnit.toMillis(timeInterval)) {
+        AtomicInteger allowed = new AtomicInteger(this.limit);
+        this.lastActionTimes.forEach(instant -> {
+            if (Duration.between(instant, Instant.now()).toMillis() <= this.timeUnit.toMillis(this.timeInterval)) {
                 allowed.getAndDecrement();
             }
         });
@@ -49,9 +52,11 @@ public class RateLimitedButton extends ButtonBase {
     }
 
     private boolean isTopElementAboveTimeThreshold() {
-        if (lastActionTimes.isEmpty()) return false;
-        Instant earliestActionTime = lastActionTimes.peek();
-        return Duration.between(earliestActionTime, Instant.now()).toMillis() > timeUnit.toMillis(timeInterval);
+        if (this.lastActionTimes.isEmpty()) {
+            return false;
+        }
+        Instant earliestActionTime = this.lastActionTimes.peek();
+        return Duration.between(earliestActionTime, Instant.now()).toMillis() > this.timeUnit.toMillis(this.timeInterval);
     }
 
     public static Builder builder() {
@@ -59,7 +64,6 @@ public class RateLimitedButton extends ButtonBase {
     }
 
     public static class Builder {
-
         private Button button;
         private int limit;
         private long timeInterval;
@@ -82,9 +86,8 @@ public class RateLimitedButton extends ButtonBase {
         }
 
         public RateLimitedButton build() {
-            return new RateLimitedButton(button, limit, timeInterval, timeUnit);
+            return new RateLimitedButton(this.button, this.limit, this.timeInterval, this.timeUnit);
         }
-
     }
-
 }
+

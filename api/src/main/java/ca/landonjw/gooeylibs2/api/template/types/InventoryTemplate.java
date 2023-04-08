@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public final class InventoryTemplate extends ChestTemplate {
 
-    protected InventoryTemplate(@Nonnull TemplateSlotDelegate[] slots) {
+    private InventoryTemplate(@Nonnull TemplateSlotDelegate[] slots) {
         super(slots);
     }
 

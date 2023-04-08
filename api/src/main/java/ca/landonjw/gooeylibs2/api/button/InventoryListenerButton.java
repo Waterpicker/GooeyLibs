@@ -6,8 +6,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class InventoryListenerButton extends ButtonBase {
-
+public class InventoryListenerButton
+extends ButtonBase {
     private final Consumer<ButtonAction> onClick;
 
     public InventoryListenerButton(@Nullable Consumer<ButtonAction> onClick) {
@@ -17,9 +17,9 @@ public class InventoryListenerButton extends ButtonBase {
 
     @Override
     public void onClick(@Nonnull ButtonAction action) {
-        if (onClick != null) {
-            onClick.accept(action);
+        if (this.onClick != null) {
+            this.onClick.accept(action);
         }
     }
-
 }
+

@@ -3,14 +3,12 @@ package ca.landonjw.gooeylibs2.api.template.slot;
 import ca.landonjw.gooeylibs2.api.button.Button;
 import ca.landonjw.gooeylibs2.api.data.EventEmitter;
 import ca.landonjw.gooeylibs2.api.data.Subject;
-import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import org.jetbrains.annotations.Nullable;
 
 public final class TemplateSlotDelegate implements Subject<TemplateSlotDelegate> {
-
     private final EventEmitter<TemplateSlotDelegate> eventEmitter = new EventEmitter<>();
     private Button button;
     private final int index;

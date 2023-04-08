@@ -17,8 +17,7 @@ loom {
 
 dependencies {
     modImplementation("net.fabricmc:fabric-loader:${rootProject.property("fabric-loader")}")
-    modImplementation(fabricApi.module("fabric-lifecycle-events-v1", "0.75.1+1.18.2"))
-
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.58.6+1.19.2")
     implementation(project(":api", configuration = "namedElements"))
     "developmentFabric"(project(":api", configuration = "namedElements"))
     bundle(project(":api", configuration = "transformProductionFabric"))
